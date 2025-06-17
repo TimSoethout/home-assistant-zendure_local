@@ -2,7 +2,7 @@
   "domain": "zendure_local",
   "name": "Zendure Local Integration",
   "version": "0.1.0",
-  "documentation": "https://github.com/yourusername/zendure_local",
+  "documentation": "https://github.com/TimSoethout/home-assistant-zendure_local",
   "requirements": [],
   "dependencies": [],
   "codeowners": ["@TimSoethout"],
