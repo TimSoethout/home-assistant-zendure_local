@@ -1,0 +1,185 @@
+{
+    "entity": {
+        "sensor": {
+            "messageId": {
+                "name": "API Bericht-ID"
+            },
+            "smartMode": {
+                "name": "Slimme modus",
+                "state": {
+                    "ram": "Opslaan in RAM",
+                    "flash": "Opslaan in Flash",
+                    "unknown": "Onbekend"
+                }
+            },
+            "remainOutTime": {
+                "name": "Resterende ontlaadtijd"
+            },
+            "hyperTmp": {
+                "name": "Omvormer temperatuur"
+            },
+            "maxTemp": {
+                "name": "Maximale batterijtemperatuur"
+            },
+            "electricLevel": {
+                "name": "Batterijniveau"
+            },
+            "minSoc": {
+                "name": "Minimale laadniveau"
+            },
+            "socSet": {
+                "name": "Maximale laadniveau"
+            },
+            "acMode": {
+                "name": "AC-modus",
+                "state": {
+                    "charging": "Opladen",
+                    "discharging": "Ontladen",
+                    "unknown": "Onbekend"
+                }
+            },
+            "is_error": {
+                "name": "Foutstatus",
+                "state": {
+                    "no_errors": "Geen meldingen",
+                    "check_app": "Zie Zendure APP",
+                    "unknown": "Onbekend"
+                }
+            },
+            "socStatus": {
+                "name": "SOC-status",
+                "state": {
+                    "good": "Goed",
+                    "calibrating": "Kalibreren",
+                    "unknown": "Onbekend"
+                }
+            },
+            "outputLimit": {
+                "name": "Ingesteld ontlaadvermogen"
+            },
+            "inputLimit": {
+                "name": "Ingesteld oplaadvermogen"
+            },
+            "packInputPower": {
+                "name": "Vermogen (ontladen)"
+            },
+            "outputPackPower": {
+                "name": "Vermogen (opladen)"
+            },
+            "combined_power": {
+                "name": "Vermogen gecombineerd"
+            },
+            "solarInputPower": {
+                "name": "Zonne-ingangsvermogen"
+            },
+            "solarPower1": {
+                "name": "Zonnepaneel 1 vermogen"
+            },
+            "solarPower2": {
+                "name": "Zonnepaneel 2 vermogen"
+            },
+            "gridInputPower": {
+                "name": "Net-ingangsvermogen"
+            },
+            "outputHomePower": {
+                "name": "Uitgangsvermogen huis"
+            },
+            "packState": {
+                "name": "Pack status",
+                "state": {
+                    "standby": "Stand-by",
+                    "charging": "Opladen",
+                    "discharging": "Ontladen",
+                    "bypass": "Bypass",
+                    "unknown": "Onbekend"
+                }
+            },
+            "heatState": {
+                "name": "Verwarmingsstatus",
+                "state": {
+                    "normal": "Normaal",
+                    "heating": "Verwarmen",
+                    "unknown": "Onbekend"
+                }
+            },
+            "dcStatus": {
+                "name": "DC-status",
+                "state": {
+                    "off": "Uit",
+                    "on": "Aan",
+                    "ready": "Gereed",
+                    "unknown": "Onbekend"
+                }
+            },
+            "pvStatus": {
+                "name": "PV-status",
+                "state": {
+                    "off": "Uit",
+                    "on": "Aan",
+                    "unknown": "Onbekend"
+                }
+            },
+            "acStatus": {
+                "name": "AC-status",
+                "state": {
+                    "off": "Uit",
+                    "on": "Aan",
+                    "unknown": "Onbekend"
+                }
+            },
+            "gridState": {
+                "name": "Netstatus",
+                "state": {
+                    "disconnected": "Niet verbonden",
+                    "connected": "Verbonden",
+                    "unknown": "Onbekend"
+                }
+            },
+            "BatVolt": {
+                "name": "Batterijspanning"
+            },
+            "rssi": {
+                "name": "Signaalsterkte"
+            },
+            "IOTState": {
+                "name": "IoT-status",
+                "state": {
+                    "disconnected": "Niet verbonden",
+                    "connecting": "Verbinden...",
+                    "connected": "Verbonden",
+                    "unknown": "Onbekend"
+                }
+            },
+            "gridStandard": {
+                "name": "Netstandaard"
+            },
+            "inverseMaxPower": {
+                "name": "Maximaal omvormervermogen"
+            },
+            "chargeMaxLimit": {
+                "name": "Maximale laadlimiet"
+            },
+            "pack_soc": {
+                "name": "Batterijniveau"
+            },
+            "pack_power": {
+                "name": "Batterijvermogen"
+            },
+            "pack_temp": {
+                "name": "Batterijtemperatuur"
+            },
+            "pack_voltage": {
+                "name": "Batterijspanning"
+            },
+            "pack_state": {
+                "name": "Batterijstatus",
+                "state": {
+                    "standby": "Stand-by",
+                    "charging": "Opladen",
+                    "discharging": "Ontladen",
+                    "unknown": "Onbekend"
+                }
+            }
+        }
+    }
+}

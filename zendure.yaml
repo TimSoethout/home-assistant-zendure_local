@@ -1,0 +1,184 @@
+# template trigger for Zendure
+
+template:
+  - trigger:
+    - platform: time
+      at: "14:00:00"
+    - platform: event
+      event_type: event_template_reloaded
+    - platform: homeassistant
+      event: start
+    sensor:
+      - name: "Zendure Discharge Start Time"
+        unique_id: zendure_discharge_start_time
+        device_class: timestamp
+        state: >
+          {% from 'cheapest_energy_hours.jinja' import cheapest_energy_hours %}
+          {{ cheapest_energy_hours(
+            include_tomorrow=true, mode='start', sensor='sensor.zonneplan_current_electricity_tariff',
+            attr_all='forecast', value_key='electricity_price', hours=5,
+            look_ahead=false, kwh=4, lowest=false, end="5:00") }}
+
+  - trigger:
+    - platform: time
+      at: "08:00:00"
+    - platform: event
+      event_type: event_template_reloaded
+    - platform: homeassistant
+      event: start
+    sensor:
+      - name: "Zendure Charge Start Time"
+        unique_id: zendure_charge_start_time
+        device_class: timestamp
+        state: >
+          {% from 'cheapest_energy_hours.jinja' import cheapest_energy_hours %}
+          {{ cheapest_energy_hours(
+            include_tomorrow=false, mode='start', sensor='sensor.zonneplan_current_electricity_tariff', 
+            attr_all='forecast', value_key='electricity_price', hours=5,
+            look_ahead=false, kwh=4) }}
+
+rest:
+  - resource: http://SolarFlow800.lan/properties/report   # IP-adres van je Zendure
+    sensor:
+      - name: "Solarflow 800 Resterende Ontlaad Tijd"
+        value_template: >
+          {% set total_minutes = value_json['properties']['remainOutTime'] | float %}
+          {% set hours = (total_minutes // 60) | int %}
+          {% set minutes = (total_minutes % 60) | int %}
+          {{ hours }}u {{ minutes }}m
+        unique_id: Zendure_2400_AC_Resterende_Ontlaad_Tijd
+
+      - name: "Solarflow 800 Omvormer Temperatuur"
+        value_template: >
+          {% set maxTemp = value_json['properties']['hyperTmp'] | int %}
+          {{ (maxTemp - 2731) / 10.0 }}
+        unique_id: Zendure_2400_AC_Omvormer_Temperatuur
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+
+      - name: "Solarflow 800 Batterij Temperatuur"
+        value_template: >
+          {% set maxTemp = value_json['packData'][0]['maxTemp'] | int %}
+          {{ (maxTemp - 2731) / 10.0 }}
+        unique_id: Zendure_2400_AC_Batterij_Temperatuur
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+
+      - name: "Solarflow 800 Laadpercentage"
+        value_template: "{{ value_json['properties']['electricLevel'] }}"
+        device_class: battery
+        unit_of_measurement: "%"
+        state_class: measurement
+        unique_id: Zendure_2400_AC_Laadpercentage
+
+      - name: "Solarflow 800 Minimale Laadpercentage"
+        value_template: "{{ (value_json['properties']['minSoc'] | int / 10) | int }}"
+        device_class: battery
+        unit_of_measurement: "%"
+        state_class: measurement
+        unique_id: Zendure_2400_AC_Minimale_Laadpercentage
+
+      - name: "Solarflow 800 Maximale Laadpercentage"
+        value_template: "{{ (value_json['properties']['socSet'] | int / 10) | int }}"
+        device_class: battery
+        unit_of_measurement: "%"
+        state_class: measurement
+        unique_id: Zendure_2400_AC_Maximale_Laadpercentage
+
+      - name: "Solarflow 800 Mode"
+        value_template: >
+          {% set states = {1: "Opladen", 2: "Ontladen"} %}
+          {% set packState = value_json['properties']['acMode'] | int %}
+          {{ states.get(packState, "Onbekend") }}
+        unique_id: Zendure_2400_AC_Mode
+
+      - name: "Solarflow 800 Mode Nummer"
+        value_template: "{{ value_json['properties']['acMode'] }}"
+        state_class: measurement
+        unique_id: Zendure_2400_AC_Mode_Nummer
+
+      - name: "Solarflow 800 Ingesteld Ontlaadvermogen"
+        value_template: "{{ value_json['properties']['outputLimit'] }}"
+        unique_id: Zendure_2400_AC_Ingesteld_Ontlaadvermogen
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+
+      - name: "Solarflow 800 Ingesteld Oplaadvermogen"
+        value_template: "{{ value_json['properties']['inputLimit'] }}"
+        unique_id: Zendure_2400_AC_Ingesteld_Oplaadvermogen
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+
+      - name: "Solarflow 800 Vermogen (ontladen)"
+        value_template: "{{ - (value_json['properties']['packInputPower'] | int) }}"
+        unique_id: Zendure_2400_AC_Vermogen_Ontladen
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+
+      - name: "Solarflow 800 Vermogen (opladen)"
+        value_template: "{{ value_json['properties']['outputPackPower'] }}"
+        unique_id: Zendure_2400_AC_Vermogen_Opladen
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+
+      - name: "Solarflow 800 Vermogen Gecombineerd"
+        value_template: >
+          {% set opladen = value_json['properties']['outputPackPower'] | int %}
+          {% set ontladen = - (value_json['properties']['packInputPower'] | int) %}
+          {% if opladen != 0 %}
+            {{ opladen }}
+          {% else %}
+            {{ ontladen }}
+          {% endif %}
+        unique_id: Zendure_2400_AC_Vermogen_Gecombineerd
+        unit_of_measurement: "W"
+        state_class: measurement
+        device_class: power
+
+# # script:
+# #   zendure_post:
+# #     - service: rest_command
+# #       data:
+# #         url: http://SolarFlow800.lan/properties/write
+# #         method: POST
+# #         payload: '{"sn":"{{ serial }}","properties":{"acMode": 1, "inputLimit": 2400 }}'
+
+# # service: rest_command.zendure_post
+# # data:
+# #   serial: !secret solarflow800_serial
+
+# rest_command:
+#   zendure_snel_laden:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 1, "inputLimit": 2400 }}'
+#   zendure_stop_met_laden:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 1, "inputLimit": 0 }}'
+#   zendure_x_laden:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 1, "inputLimit": {{inputLimit}} }}'
+#   zendure_x_ontladen:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 2, "outputLimit": {{outputLimit}} }}'
+#   zendure_snel_ontladen:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 2, "outputLimit": 2400 }}'
+#   zendure_stop_met_ontladen:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"acMode": 2, "outputLimit": 0 }}'
+#   zendure_stop_met_alles:
+#     url: http://SolarFlow800.lan/properties/write
+#     method: POST
+#     payload: '{"sn":"{{ serial }}","properties":{"outputLimit": 0, "inputLimit": 0 }}'

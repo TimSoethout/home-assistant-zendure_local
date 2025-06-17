@@ -1,0 +1,185 @@
+{
+    "entity": {
+        "sensor": {
+            "messageId": {
+                "name": "API Message ID"
+            },
+            "smartMode": {
+                "name": "Smart Mode",
+                "state": {
+                    "ram": "Store in RAM",
+                    "flash": "Store in Flash",
+                    "unknown": "Unknown"
+                }
+            },
+            "remainOutTime": {
+                "name": "Remaining Discharge Time"
+            },
+            "hyperTmp": {
+                "name": "Inverter Temperature"
+            },
+            "maxTemp": {
+                "name": "Max Battery Temperature"
+            },
+            "electricLevel": {
+                "name": "Battery Level"
+            },
+            "minSoc": {
+                "name": "Minimum Charge Level"
+            },
+            "socSet": {
+                "name": "Maximum Charge Level"
+            },
+            "acMode": {
+                "name": "AC Mode",
+                "state": {
+                    "charging": "Charging",
+                    "discharging": "Discharging",
+                    "unknown": "Unknown"
+                }
+            },
+            "is_error": {
+                "name": "Error Status",
+                "state": {
+                    "no_errors": "No notifications",
+                    "check_app": "Check Zendure APP",
+                    "unknown": "Unknown"
+                }
+            },
+            "socStatus": {
+                "name": "SOC Status",
+                "state": {
+                    "good": "Good",
+                    "calibrating": "Calibrating",
+                    "unknown": "Unknown"
+                }
+            },
+            "outputLimit": {
+                "name": "Set Discharge Power"
+            },
+            "inputLimit": {
+                "name": "Set Charge Power"
+            },
+            "packInputPower": {
+                "name": "Power (discharging)"
+            },
+            "outputPackPower": {
+                "name": "Power (charging)"
+            },
+            "combined_power": {
+                "name": "Combined Power"
+            },
+            "solarInputPower": {
+                "name": "Solar Input Power"
+            },
+            "solarPower1": {
+                "name": "Solar Panel 1 Power"
+            },
+            "solarPower2": {
+                "name": "Solar Panel 2 Power"
+            },
+            "gridInputPower": {
+                "name": "Grid Input Power"
+            },
+            "outputHomePower": {
+                "name": "Home Output Power"
+            },
+            "packState": {
+                "name": "Pack State",
+                "state": {
+                    "standby": "Standby",
+                    "charging": "Charging",
+                    "discharging": "Discharging",
+                    "bypass": "Bypass",
+                    "unknown": "Unknown"
+                }
+            },
+            "heatState": {
+                "name": "Heat State",
+                "state": {
+                    "normal": "Normal",
+                    "heating": "Heating",
+                    "unknown": "Unknown"
+                }
+            },
+            "dcStatus": {
+                "name": "DC Status",
+                "state": {
+                    "off": "Off",
+                    "on": "On",
+                    "ready": "Ready",
+                    "unknown": "Unknown"
+                }
+            },
+            "pvStatus": {
+                "name": "PV Status",
+                "state": {
+                    "off": "Off",
+                    "on": "On",
+                    "unknown": "Unknown"
+                }
+            },
+            "acStatus": {
+                "name": "AC Status",
+                "state": {
+                    "off": "Off",
+                    "on": "On",
+                    "unknown": "Unknown"
+                }
+            },
+            "gridState": {
+                "name": "Grid State",
+                "state": {
+                    "disconnected": "Disconnected",
+                    "connected": "Connected",
+                    "unknown": "Unknown"
+                }
+            },
+            "BatVolt": {
+                "name": "Battery Voltage"
+            },
+            "rssi": {
+                "name": "Signal Strength"
+            },
+            "IOTState": {
+                "name": "IoT State",
+                "state": {
+                    "disconnected": "Disconnected",
+                    "connecting": "Connecting...",
+                    "connected": "Connected",
+                    "unknown": "Unknown"
+                }
+            },
+            "gridStandard": {
+                "name": "Grid Standard"
+            },
+            "inverseMaxPower": {
+                "name": "Max Inverter Power"
+            },
+            "chargeMaxLimit": {
+                "name": "Max Charge Limit"
+            },
+            "pack_soc": {
+                "name": "Battery Level"
+            },
+            "pack_power": {
+                "name": "Battery Power"
+            },
+            "pack_temp": {
+                "name": "Battery Temperature"
+            },
+            "pack_voltage": {
+                "name": "Battery Voltage"
+            },
+            "pack_state": {
+                "name": "Battery State",
+                "state": {
+                    "standby": "Standby",
+                    "charging": "Charging",
+                    "discharging": "Discharging",
+                    "unknown": "Unknown"
+                }
+            }
+        }
+    }
+}
