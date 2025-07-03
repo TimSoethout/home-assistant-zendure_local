@@ -8,6 +8,7 @@ This custom integration allows Home Assistant to monitor your Zendure SolarFlow 
 - Local polling (no cloud)
 - Configurable via Home Assistant UI
 - HACS compatible
+- ONLY READ/QUERY is supported in this initial release
 
 ## Installation via HACS
 
