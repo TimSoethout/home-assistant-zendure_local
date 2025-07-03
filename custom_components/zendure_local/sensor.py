@@ -499,17 +499,17 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> N
                 )
             )
 
-    # Add Zendure action buttons
-    device_info = DeviceInfo(
-        identifiers={(DOMAIN, "zendure_solarflow")},
-        name="Solarflow 800",
-        manufacturer="Zendure",
-        model="Solarflow Hub",
-    )
-    buttons = [
-        ZendureActionButton(hass, action, device_info) for action in ZENDURE_ACTIONS
-    ]
-    async_add_entities(buttons, update_before_add=False)
+    # # Add Zendure action buttons
+    # device_info = DeviceInfo(
+    #     identifiers={(DOMAIN, "zendure_solarflow")},
+    #     name="Solarflow 800",
+    #     manufacturer="Zendure",
+    #     model="Solarflow Hub",
+    # )
+    # buttons = [
+    #     ZendureActionButton(hass, action, device_info) for action in ZENDURE_ACTIONS
+    # ]
+    # async_add_entities(buttons, update_before_add=False)
 
     async_add_entities(entities)
     _LOGGER.debug("Added %d ZendureLocalSensor entities", len(entities))
