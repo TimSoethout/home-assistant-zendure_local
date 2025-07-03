@@ -3,7 +3,10 @@
 import logging
 
 import requests
+import aiohttp
+from aiohttp import ClientSession, ClientTimeout
 
+from homeassistant.components.button import ButtonEntity
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -342,6 +345,86 @@ PACK_SENSOR_TYPES = {
     },
 }
 
+ZENDURE_ACTIONS = [
+    {
+        "key": "snel_laden",
+        "name": "Snel Laden",
+        "service": "rest_command.zendure_snel_laden",
+    },
+    {
+        "key": "stop_met_laden",
+        "name": "Stop met Laden",
+        "service": "rest_command.zendure_stop_met_laden",
+    },
+    {
+        "key": "snel_ontladen",
+        "name": "Snel Ontladen",
+        "service": "rest_command.zendure_snel_ontladen",
+    },
+    {
+        "key": "stop_met_ontladen",
+        "name": "Stop met Ontladen",
+        "service": "rest_command.zendure_stop_met_ontladen",
+    },
+    {
+        "key": "stop_met_alles",
+        "name": "Stop met Alles",
+        "service": "rest_command.zendure_stop_met_alles",
+    },
+]
+
+
+class ZendureActionButton(ButtonEntity):
+    """Button entity for Zendure action."""
+
+    def __init__(self, hass, action, device_info):
+        """Initialize ZendureActionButton."""
+        self._hass = hass
+        self._action = action
+        self._attr_name = f"Zendure {action['name']}"
+        self._attr_unique_id = f"zendure_{action['key']}_button"
+        self._attr_device_info = device_info
+
+    async def async_press(self) -> None:
+        """Handle button press by making the actual POST call to the Zendure device."""
+        serial = "!secret solarflow800_serial"  # Replace with actual serial retrieval if needed
+        url = "http://SolarFlow800.lan/properties/write"
+        payloads = {
+            "snel_laden": {
+                "sn": serial,
+                "properties": {"acMode": 1, "inputLimit": 2400},
+            },
+            "stop_met_laden": {
+                "sn": serial,
+                "properties": {"acMode": 1, "inputLimit": 0},
+            },
+            "snel_ontladen": {
+                "sn": serial,
+                "properties": {"acMode": 2, "outputLimit": 2400},
+            },
+            "stop_met_ontladen": {
+                "sn": serial,
+                "properties": {"acMode": 2, "outputLimit": 0},
+            },
+            "stop_met_alles": {
+                "sn": serial,
+                "properties": {"outputLimit": 0, "inputLimit": 0},
+            },
+        }
+        payload = payloads.get(self._action["key"])
+        if payload is None:
+            _LOGGER.error("No payload defined for action %s", self._action["key"])
+            return
+        timeout = ClientTimeout(total=10)
+        async with ClientSession(timeout=timeout) as session:
+            resp = await session.post(url, json=payload)
+            if resp.status != 200:
+                _LOGGER.error(
+                    "Failed to POST to Zendure: %s %s", resp.status, await resp.text()
+                )
+            else:
+                _LOGGER.debug("POST to Zendure succeeded for %s", self._action["key"])
+
 
 async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> None:
     """Set up Zendure Local sensors from a config entry."""
@@ -415,6 +498,18 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> N
                     pack_index,
                 )
             )
+
+    # Add Zendure action buttons
+    device_info = DeviceInfo(
+        identifiers={(DOMAIN, "zendure_solarflow")},
+        name="Solarflow 800",
+        manufacturer="Zendure",
+        model="Solarflow Hub",
+    )
+    buttons = [
+        ZendureActionButton(hass, action, device_info) for action in ZENDURE_ACTIONS
+    ]
+    async_add_entities(buttons, update_before_add=False)
 
     async_add_entities(entities)
     _LOGGER.debug("Added %d ZendureLocalSensor entities", len(entities))
