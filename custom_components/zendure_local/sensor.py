@@ -5,21 +5,16 @@ import re
 
 import aiohttp
 import requests
-
 from homeassistant.components.button import ButtonEntity
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-    SensorEntityDescription,
-    SensorStateClass,
-)
-from homeassistant.const import CONF_NAME, CONF_RESOURCE, UnitOfPower, UnitOfTemperature
+from homeassistant.components.sensor import (SensorDeviceClass, SensorEntity,
+                                             SensorEntityDescription,
+                                             SensorStateClass)
+from homeassistant.const import (CONF_NAME, CONF_RESOURCE, UnitOfPower,
+                                 UnitOfTemperature)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, EntityCategory
-from homeassistant.helpers.update_coordinator import (
-    CoordinatorEntity,
-    DataUpdateCoordinator,
-)
+from homeassistant.helpers.update_coordinator import (CoordinatorEntity,
+                                                      DataUpdateCoordinator)
 
 from .const import DEFAULT_RESOURCE, DOMAIN, SCAN_INTERVAL
 
