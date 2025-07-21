@@ -1,4 +1,5 @@
 """Config flow for Zendure Local integration."""
+
 import voluptuous as vol
 
 from homeassistant import config_entries

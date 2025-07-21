@@ -35,8 +35,8 @@ def camel_to_snake(camel_str: str) -> str:
         return "bat_volt"
 
     # Convert camelCase to snake_case
-    snake_str = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', camel_str)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', snake_str).lower()
+    snake_str = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", camel_str)
+    return re.sub("([a-z0-9])([A-Z])", r"\1_\2", snake_str).lower()
 
 
 # Translation key mapping for camelCase to snake_case
@@ -102,9 +102,7 @@ class ZendureCoordinator(DataUpdateCoordinator):
                 _LOGGER.debug("Successfully fetched data: %s", data)
                 return data
 
-            _LOGGER.warning(
-                "HTTP error %s when fetching data", response.status_code
-            )
+            _LOGGER.warning("HTTP error %s when fetching data", response.status_code)
             return {}
 
         except requests.exceptions.RequestException as ex:
