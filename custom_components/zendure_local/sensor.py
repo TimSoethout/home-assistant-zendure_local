@@ -1,10 +1,10 @@
 """Zendure Local sensor platform for Home Assistant."""
 
 import logging
+import re
 
-import requests
 import aiohttp
-from aiohttp import ClientSession, ClientTimeout
+import requests
 
 from homeassistant.components.button import ButtonEntity
 from homeassistant.components.sensor import (
@@ -16,7 +16,6 @@ from homeassistant.components.sensor import (
 from homeassistant.const import CONF_NAME, CONF_RESOURCE, UnitOfPower, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, EntityCategory
-from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
@@ -25,6 +24,54 @@ from homeassistant.helpers.update_coordinator import (
 from .const import DEFAULT_RESOURCE, DOMAIN, SCAN_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def camel_to_snake(camel_str: str) -> str:
+    """Convert camelCase to snake_case."""
+    # Handle special cases first
+    if camel_str == "IOTState":
+        return "iot_state"
+    if camel_str == "BatVolt":
+        return "bat_volt"
+
+    # Convert camelCase to snake_case
+    snake_str = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', camel_str)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', snake_str).lower()
+
+
+# Translation key mapping for camelCase to snake_case
+TRANSLATION_KEY_MAP = {
+    "messageId": "message_id",
+    "smartMode": "smart_mode",
+    "remainOutTime": "remain_out_time",
+    "hyperTmp": "hyper_tmp",
+    "maxTemp": "max_temp",
+    "electricLevel": "electric_level",
+    "minSoc": "min_soc",
+    "socSet": "soc_set",
+    "acMode": "ac_mode",
+    "socStatus": "soc_status",
+    "outputLimit": "output_limit",
+    "inputLimit": "input_limit",
+    "packInputPower": "pack_input_power",
+    "outputPackPower": "output_pack_power",
+    "solarInputPower": "solar_input_power",
+    "solarPower1": "solar_power1",
+    "solarPower2": "solar_power2",
+    "gridInputPower": "grid_input_power",
+    "outputHomePower": "output_home_power",
+    "packState": "pack_state",
+    "heatState": "heat_state",
+    "dcStatus": "dc_status",
+    "pvStatus": "pv_status",
+    "acStatus": "ac_status",
+    "gridState": "grid_state",
+    "BatVolt": "bat_volt",
+    "IOTState": "iot_state",
+    "gridStandard": "grid_standard",
+    "inverseMaxPower": "inverse_max_power",
+    "chargeMaxLimit": "charge_max_limit",
+}
 
 
 class ZendureCoordinator(DataUpdateCoordinator):
@@ -54,11 +101,11 @@ class ZendureCoordinator(DataUpdateCoordinator):
                 data = response.json()
                 _LOGGER.debug("Successfully fetched data: %s", data)
                 return data
-            else:
-                _LOGGER.warning(
-                    "HTTP error %s when fetching data", response.status_code
-                )
-                return {}
+            
+            _LOGGER.warning(
+                "HTTP error %s when fetching data", response.status_code
+            )
+            return {}
 
         except requests.exceptions.RequestException as ex:
             _LOGGER.error("Error fetching Zendure data: %s", ex)
@@ -415,8 +462,8 @@ class ZendureActionButton(ButtonEntity):
         if payload is None:
             _LOGGER.error("No payload defined for action %s", self._action["key"])
             return
-        timeout = ClientTimeout(total=10)
-        async with ClientSession(timeout=timeout) as session:
+        timeout = aiohttp.ClientTimeout(total=10)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
             resp = await session.post(url, json=payload)
             if resp.status != 200:
                 _LOGGER.error(
@@ -453,9 +500,11 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> N
     main_sensors = [key for key in SENSOR_TYPES if not key.startswith("pack")]
     for sensor_key in main_sensors:
         sensor_config = SENSOR_TYPES[sensor_key]
+        # Use translation key mapping to convert camelCase to snake_case
+        translation_key = TRANSLATION_KEY_MAP.get(sensor_key, sensor_key)
         description = SensorEntityDescription(
             key=sensor_key,
-            translation_key=sensor_key,
+            translation_key=translation_key,
             name=None,  # Use translation system for entity name
             native_unit_of_measurement=sensor_config.get("native_unit_of_measurement"),
             device_class=sensor_config.get("device_class"),
@@ -478,9 +527,14 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> N
     for pack_index in range(pack_count):
         pack_number = pack_index + 1  # Human-readable pack numbers start at 1
         for sensor_key, sensor_config in PACK_SENSOR_TYPES.items():
+            # Handle special case for pack state to avoid duplicate with main pack_state
+            translation_key = f"pack_{sensor_key}"
+            if sensor_key == "state":
+                translation_key = "pack_battery_state"
+            
             description = SensorEntityDescription(
                 key=f"pack_{sensor_key}",
-                translation_key=f"pack_{sensor_key}",
+                translation_key=translation_key,
                 name=None,  # Use translation system for entity name
                 native_unit_of_measurement=sensor_config.get(
                     "native_unit_of_measurement"

@@ -1,10 +1,10 @@
 {
     "entity": {
         "sensor": {
-            "messageId": {
+            "message_id": {
                 "name": "API Message ID"
             },
-            "smartMode": {
+            "smart_mode": {
                 "name": "Smart Mode",
                 "state": {
                     "ram": "Store in RAM",
@@ -12,25 +12,25 @@
                     "unknown": "Unknown"
                 }
             },
-            "remainOutTime": {
+            "remain_out_time": {
                 "name": "Remaining Discharge Time"
             },
-            "hyperTmp": {
+            "hyper_tmp": {
                 "name": "Inverter Temperature"
             },
-            "maxTemp": {
+            "max_temp": {
                 "name": "Max Battery Temperature"
             },
-            "electricLevel": {
+            "electric_level": {
                 "name": "Battery Level"
             },
-            "minSoc": {
+            "min_soc": {
                 "name": "Minimum Charge Level"
             },
-            "socSet": {
+            "soc_set": {
                 "name": "Maximum Charge Level"
             },
-            "acMode": {
+            "ac_mode": {
                 "name": "AC Mode",
                 "state": {
                     "charging": "Charging",
@@ -46,7 +46,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "socStatus": {
+            "soc_status": {
                 "name": "SOC Status",
                 "state": {
                     "good": "Good",
@@ -54,37 +54,37 @@
                     "unknown": "Unknown"
                 }
             },
-            "outputLimit": {
+            "output_limit": {
                 "name": "Set Discharge Power"
             },
-            "inputLimit": {
+            "input_limit": {
                 "name": "Set Charge Power"
             },
-            "packInputPower": {
+            "pack_input_power": {
                 "name": "Power (discharging)"
             },
-            "outputPackPower": {
+            "output_pack_power": {
                 "name": "Power (charging)"
             },
             "combined_power": {
                 "name": "Combined Power"
             },
-            "solarInputPower": {
+            "solar_input_power": {
                 "name": "Solar Input Power"
             },
-            "solarPower1": {
+            "solar_power1": {
                 "name": "Solar Panel 1 Power"
             },
-            "solarPower2": {
+            "solar_power2": {
                 "name": "Solar Panel 2 Power"
             },
-            "gridInputPower": {
+            "grid_input_power": {
                 "name": "Grid Input Power"
             },
-            "outputHomePower": {
+            "output_home_power": {
                 "name": "Home Output Power"
             },
-            "packState": {
+            "pack_state": {
                 "name": "Pack State",
                 "state": {
                     "standby": "Standby",
@@ -94,7 +94,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "heatState": {
+            "heat_state": {
                 "name": "Heat State",
                 "state": {
                     "normal": "Normal",
@@ -102,7 +102,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "dcStatus": {
+            "dc_status": {
                 "name": "DC Status",
                 "state": {
                     "off": "Off",
@@ -111,7 +111,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "pvStatus": {
+            "pv_status": {
                 "name": "PV Status",
                 "state": {
                     "off": "Off",
@@ -119,7 +119,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "acStatus": {
+            "ac_status": {
                 "name": "AC Status",
                 "state": {
                     "off": "Off",
@@ -127,7 +127,7 @@
                     "unknown": "Unknown"
                 }
             },
-            "gridState": {
+            "grid_state": {
                 "name": "Grid State",
                 "state": {
                     "disconnected": "Disconnected",
@@ -135,13 +135,13 @@
                     "unknown": "Unknown"
                 }
             },
-            "BatVolt": {
+            "bat_volt": {
                 "name": "Battery Voltage"
             },
             "rssi": {
                 "name": "Signal Strength"
             },
-            "IOTState": {
+            "iot_state": {
                 "name": "IoT State",
                 "state": {
                     "disconnected": "Disconnected",
@@ -150,13 +150,13 @@
                     "unknown": "Unknown"
                 }
             },
-            "gridStandard": {
+            "grid_standard": {
                 "name": "Grid Standard"
             },
-            "inverseMaxPower": {
+            "inverse_max_power": {
                 "name": "Max Inverter Power"
             },
-            "chargeMaxLimit": {
+            "charge_max_limit": {
                 "name": "Max Charge Limit"
             },
             "pack_soc": {
@@ -171,7 +171,7 @@
             "pack_voltage": {
                 "name": "Battery Voltage"
             },
-            "pack_state": {
+            "pack_battery_state": {
                 "name": "Battery State",
                 "state": {
                     "standby": "Standby",

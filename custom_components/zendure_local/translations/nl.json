@@ -1,10 +1,10 @@
 {
     "entity": {
         "sensor": {
-            "messageId": {
+            "message_id": {
                 "name": "API Bericht-ID"
             },
-            "smartMode": {
+            "smart_mode": {
                 "name": "Slimme modus",
                 "state": {
                     "ram": "Opslaan in RAM",
@@ -12,25 +12,25 @@
                     "unknown": "Onbekend"
                 }
             },
-            "remainOutTime": {
+            "remain_out_time": {
                 "name": "Resterende ontlaadtijd"
             },
-            "hyperTmp": {
+            "hyper_tmp": {
                 "name": "Omvormer temperatuur"
             },
-            "maxTemp": {
+            "max_temp": {
                 "name": "Maximale batterijtemperatuur"
             },
-            "electricLevel": {
+            "electric_level": {
                 "name": "Batterijniveau"
             },
-            "minSoc": {
+            "min_soc": {
                 "name": "Minimale laadniveau"
             },
-            "socSet": {
+            "soc_set": {
                 "name": "Maximale laadniveau"
             },
-            "acMode": {
+            "ac_mode": {
                 "name": "AC-modus",
                 "state": {
                     "charging": "Opladen",
@@ -46,7 +46,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "socStatus": {
+            "soc_status": {
                 "name": "SOC-status",
                 "state": {
                     "good": "Goed",
@@ -54,37 +54,37 @@
                     "unknown": "Onbekend"
                 }
             },
-            "outputLimit": {
+            "output_limit": {
                 "name": "Ingesteld ontlaadvermogen"
             },
-            "inputLimit": {
+            "input_limit": {
                 "name": "Ingesteld oplaadvermogen"
             },
-            "packInputPower": {
+            "pack_input_power": {
                 "name": "Vermogen (ontladen)"
             },
-            "outputPackPower": {
+            "output_pack_power": {
                 "name": "Vermogen (opladen)"
             },
             "combined_power": {
                 "name": "Vermogen gecombineerd"
             },
-            "solarInputPower": {
+            "solar_input_power": {
                 "name": "Zonne-ingangsvermogen"
             },
-            "solarPower1": {
+            "solar_power1": {
                 "name": "Zonnepaneel 1 vermogen"
             },
-            "solarPower2": {
+            "solar_power2": {
                 "name": "Zonnepaneel 2 vermogen"
             },
-            "gridInputPower": {
+            "grid_input_power": {
                 "name": "Net-ingangsvermogen"
             },
-            "outputHomePower": {
+            "output_home_power": {
                 "name": "Uitgangsvermogen huis"
             },
-            "packState": {
+            "pack_state": {
                 "name": "Pack status",
                 "state": {
                     "standby": "Stand-by",
@@ -94,7 +94,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "heatState": {
+            "heat_state": {
                 "name": "Verwarmingsstatus",
                 "state": {
                     "normal": "Normaal",
@@ -102,7 +102,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "dcStatus": {
+            "dc_status": {
                 "name": "DC-status",
                 "state": {
                     "off": "Uit",
@@ -111,7 +111,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "pvStatus": {
+            "pv_status": {
                 "name": "PV-status",
                 "state": {
                     "off": "Uit",
@@ -119,7 +119,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "acStatus": {
+            "ac_status": {
                 "name": "AC-status",
                 "state": {
                     "off": "Uit",
@@ -127,7 +127,7 @@
                     "unknown": "Onbekend"
                 }
             },
-            "gridState": {
+            "grid_state": {
                 "name": "Netstatus",
                 "state": {
                     "disconnected": "Niet verbonden",
@@ -135,13 +135,13 @@
                     "unknown": "Onbekend"
                 }
             },
-            "BatVolt": {
+            "bat_volt": {
                 "name": "Batterijspanning"
             },
             "rssi": {
                 "name": "Signaalsterkte"
             },
-            "IOTState": {
+            "iot_state": {
                 "name": "IoT-status",
                 "state": {
                     "disconnected": "Niet verbonden",
@@ -150,13 +150,13 @@
                     "unknown": "Onbekend"
                 }
             },
-            "gridStandard": {
+            "grid_standard": {
                 "name": "Netstandaard"
             },
-            "inverseMaxPower": {
+            "inverse_max_power": {
                 "name": "Maximaal omvormervermogen"
             },
-            "chargeMaxLimit": {
+            "charge_max_limit": {
                 "name": "Maximale laadlimiet"
             },
             "pack_soc": {
@@ -171,7 +171,7 @@
             "pack_voltage": {
                 "name": "Batterijspanning"
             },
-            "pack_state": {
+            "pack_battery_state": {
                 "name": "Batterijstatus",
                 "state": {
                     "standby": "Stand-by",
