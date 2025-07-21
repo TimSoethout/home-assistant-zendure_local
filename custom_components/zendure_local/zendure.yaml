@@ -33,7 +33,7 @@ template:
         state: >
           {% from 'cheapest_energy_hours.jinja' import cheapest_energy_hours %}
           {{ cheapest_energy_hours(
-            include_tomorrow=false, mode='start', sensor='sensor.zonneplan_current_electricity_tariff', 
+            include_tomorrow=false, mode='start', sensor='sensor.zonneplan_current_electricity_tariff',
             attr_all='forecast', value_key='electricity_price', hours=5,
             look_ahead=false, kwh=4) }}
 

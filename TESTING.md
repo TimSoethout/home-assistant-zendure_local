@@ -24,6 +24,9 @@ Here are several ways to run the tests for your Zendure Local integration, follo
    
    # Run with coverage report
    pytest tests/test_basic.py --cov=custom_components.zendure_local --cov-report=term-missing -v
+   
+   # Alternative: Run directly with Python (if pytest has issues)
+   PYTHONPATH=. python tests/test_basic.py
    ```
 
 4. **Run specific test files:**
@@ -120,10 +123,20 @@ If you encounter import errors:
 3. Run with explicit Python path: `PYTHONPATH=. pytest tests/test_basic.py -v`
 
 If you see Home Assistant fixture errors:
-- **Expected behavior**: Complex HA integration tests may fail without full HA setup
-- **Solution**: Use `pytest tests/test_basic.py -v` for reliable basic functionality testing
-- **Alternative**: The basic tests provide good coverage without requiring the full HA framework
-- **Development tip**: Focus on unit tests for core logic, integration tests for HA-specific features
+- **Root cause**: The `pytest-homeassistant-custom-component` plugin conflicts with basic tests
+- **Solution**: We've disabled the conflicting `conftest.py` file for basic testing
+- **Quick fix**: `PYTHONPATH=. python tests/test_basic.py` always works
+- **Best practice**: Use `pytest tests/test_basic.py -v` for the working configuration
+
+**Debugging the test environment:**
+```bash
+# If pytest still has issues, run the setup commands:
+pip uninstall pytest-homeassistant-custom-component -y
+mv tests/conftest.py tests/conftest.py.disabled
+
+# Then pytest should work normally:
+pytest tests/test_basic.py -v
+```
 
 Common pytest patterns:
 ```bash
