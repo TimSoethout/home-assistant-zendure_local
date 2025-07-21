@@ -1,6 +1,6 @@
 # Zendure Local Integration
 
-This custom integration allows Home Assistant to monitor your Zendure SolarFlow device locally via REST API.
+This custom integration allows Home Assistant to monitor your Zendure SolarFlow device locally via REST API using [ZenSDK](https://github.com/thiloplanz/zenSDK/blob/main/README.md).
 
 ## Features
 
