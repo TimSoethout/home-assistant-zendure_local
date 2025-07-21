@@ -101,7 +101,7 @@ class ZendureCoordinator(DataUpdateCoordinator):
                 data = response.json()
                 _LOGGER.debug("Successfully fetched data: %s", data)
                 return data
-            
+
             _LOGGER.warning(
                 "HTTP error %s when fetching data", response.status_code
             )
@@ -531,7 +531,7 @@ async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> N
             translation_key = f"pack_{sensor_key}"
             if sensor_key == "state":
                 translation_key = "pack_battery_state"
-            
+
             description = SensorEntityDescription(
                 key=f"pack_{sensor_key}",
                 translation_key=translation_key,

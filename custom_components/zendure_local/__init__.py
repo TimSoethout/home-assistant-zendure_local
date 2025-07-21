@@ -2,9 +2,8 @@
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType
-import voluptuous as vol
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.typing import ConfigType
 
 CONFIG_SCHEMA = cv.empty_config_schema("zendure_local")
 
