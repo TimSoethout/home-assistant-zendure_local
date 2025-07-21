@@ -1,0 +1,11 @@
+{
+    "timestamp": 1752063327,
+    "messageId": 1,
+    "deviceId": "REDACTED_P1_DEVICE",
+    "a_aprt_power": -286,
+    "b_aprt_power": 1293,
+    "c_aprt_power": 1486,
+    "total_power": 2494,
+    "meterType": 3,
+    "protocolType": 51
+}
