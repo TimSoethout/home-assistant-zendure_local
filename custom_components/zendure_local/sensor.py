@@ -350,7 +350,6 @@ SENSOR_TYPES = {
             int(data["properties"]["smartMode"]), "unknown"
         ),
     },
-
     "inverseMaxPower": {
         "native_unit_of_measurement": UnitOfPower.WATT,
         "device_class": SensorDeviceClass.POWER,
@@ -379,7 +378,7 @@ SENSOR_TYPES = {
         "value_func": lambda data: {
             0: "normal",
             1: "charge_limit_reached",
-            2: "discharge_limit_reached"
+            2: "discharge_limit_reached",
         }.get(int(data["properties"]["socLimit"]), "unknown"),
     },
     "dataReady": {
@@ -768,7 +767,7 @@ class ZendureLocalBatterySensor(CoordinatorEntity[ZendureCoordinator], SensorEnt
                     # Convert: batcur is 32-bit integer, upper 16 bits sign-extended
                     # Formula: batcur_actual = ((int16_t)batcur) / 10.0
                     # Convert to signed 16-bit and divide by 10
-                    signed_current = (batcur & 0xFFFF)
+                    signed_current = batcur & 0xFFFF
                     if signed_current > 32767:
                         signed_current -= 65536
                     self._attr_native_value = signed_current / 10.0
