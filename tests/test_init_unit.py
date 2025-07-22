@@ -1,4 +1,5 @@
 """Tests for integration initialization logic without Home Assistant test framework."""
+
 import sys
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock
@@ -8,7 +9,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 
-from custom_components.zendure_local import async_setup, async_setup_entry, async_unload_entry
+from custom_components.zendure_local import (
+    async_setup,
+    async_setup_entry,
+    async_unload_entry,
+)
 from custom_components.zendure_local.const import DOMAIN
 
 
@@ -38,7 +43,7 @@ async def test_async_setup_basic_call():
     """Test that async_setup can be called with mock objects."""
     mock_hass = MagicMock()
     mock_config = {}
-    
+
     # This should return True for a basic setup
     result = await async_setup(mock_hass, mock_config)
     assert result is True
@@ -50,13 +55,10 @@ async def test_async_setup_entry_basic_structure():
     mock_hass = MagicMock()
     mock_hass.config_entries = MagicMock()
     mock_hass.config_entries.async_forward_entry_setups = AsyncMock(return_value=True)
-    
+
     mock_entry = MagicMock()
-    mock_entry.data = {
-        "resource": "http://test.example.com",
-        "name": "Test Device"
-    }
-    
+    mock_entry.data = {"resource": "http://test.example.com", "name": "Test Device"}
+
     # Test that the function can be called
     try:
         result = await async_setup_entry(mock_hass, mock_entry)
@@ -74,9 +76,9 @@ async def test_async_unload_entry_basic_structure():
     mock_hass = MagicMock()
     mock_hass.config_entries = MagicMock()
     mock_hass.config_entries.async_forward_entry_unload = AsyncMock(return_value=True)
-    
+
     mock_entry = MagicMock()
-    
+
     # Test that the function can be called
     try:
         result = await async_unload_entry(mock_hass, mock_entry)
@@ -91,12 +93,12 @@ async def test_async_unload_entry_basic_structure():
 def test_integration_structure():
     """Test that the integration module has the expected structure."""
     import custom_components.zendure_local as integration
-    
+
     # Check that required functions exist
-    assert hasattr(integration, 'async_setup')
-    assert hasattr(integration, 'async_setup_entry')
-    assert hasattr(integration, 'async_unload_entry')
-    
+    assert hasattr(integration, "async_setup")
+    assert hasattr(integration, "async_setup_entry")
+    assert hasattr(integration, "async_unload_entry")
+
     # Check that they are functions
     assert callable(integration.async_setup)
     assert callable(integration.async_setup_entry)

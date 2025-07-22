@@ -1,14 +1,15 @@
 """Test the Zendure Local integration setup."""
-from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
+from unittest.mock import AsyncMock, patch
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME, CONF_RESOURCE
+
 from homeassistant.core import HomeAssistant
 
-from custom_components.zendure_local import async_setup, async_setup_entry, async_unload_entry
-from custom_components.zendure_local.const import DOMAIN
+from custom_components.zendure_local import (
+    async_setup,
+    async_setup_entry,
+    async_unload_entry,
+)
 
 
 async def test_async_setup(hass: HomeAssistant):
@@ -25,7 +26,7 @@ async def test_async_setup_entry_success(hass: HomeAssistant, mock_config_entry)
         new_callable=AsyncMock,
     ) as mock_forward:
         result = await async_setup_entry(hass, mock_config_entry)
-        
+
         assert result is True
         mock_forward.assert_called_once_with(mock_config_entry, ["sensor"])
 
@@ -38,7 +39,7 @@ async def test_async_unload_entry_success(hass: HomeAssistant, mock_config_entry
         return_value=True,
     ) as mock_unload:
         result = await async_unload_entry(hass, mock_config_entry)
-        
+
         assert result is True
         mock_unload.assert_called_once_with(mock_config_entry, "sensor")
 
@@ -51,6 +52,6 @@ async def test_async_unload_entry_failure(hass: HomeAssistant, mock_config_entry
         return_value=False,
     ) as mock_unload:
         result = await async_unload_entry(hass, mock_config_entry)
-        
+
         assert result is False
         mock_unload.assert_called_once_with(mock_config_entry, "sensor")

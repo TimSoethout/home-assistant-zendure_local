@@ -1,12 +1,11 @@
 """Test the Zendure Local config flow."""
+
 from unittest.mock import MagicMock, patch
 
-import pytest
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_NAME, CONF_RESOURCE
 
-from custom_components.zendure_local.config_flow import ConfigFlow
 from custom_components.zendure_local.const import DEFAULT_NAME, DEFAULT_RESOURCE, DOMAIN
 
 
@@ -15,7 +14,7 @@ async def test_config_flow_user_step(hass):
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    
+
     assert result["type"] == "form"
     assert result["errors"] == {}
     assert result["step_id"] == "user"
@@ -26,7 +25,7 @@ async def test_config_flow_user_step_success(hass):
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    
+
     with patch(
         "custom_components.zendure_local.async_setup_entry",
         return_value=True,
@@ -53,10 +52,10 @@ async def test_config_flow_default_values(hass):
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    
+
     data_schema = result["data_schema"]
     assert data_schema is not None
-    
+
     # Check that default values are set correctly
     for field in data_schema.schema:
         if field.default is not None:
@@ -75,12 +74,12 @@ async def test_config_flow_unique_id_already_configured(hass):
         CONF_RESOURCE: "http://solarflow800.lan/properties/report",
     }
     hass.config_entries.async_entries = MagicMock(return_value=[entry])
-    
+
     # Try to create second entry with same resource
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    
+
     result2 = await hass.config_entries.flow.async_configure(
         result["flow_id"],
         {
@@ -88,6 +87,6 @@ async def test_config_flow_unique_id_already_configured(hass):
             CONF_RESOURCE: "http://solarflow800.lan/properties/report",
         },
     )
-    
+
     # Should complete successfully as we don't have unique_id validation implemented
     assert result2["type"] == "create_entry"
