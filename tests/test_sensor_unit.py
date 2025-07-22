@@ -6,8 +6,6 @@ from pathlib import Path
 # Add the parent directory to sys.path to enable imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import pytest
-
 from custom_components.zendure_local.sensor import SENSOR_TYPES
 
 
@@ -78,7 +76,7 @@ def test_sensor_value_functions_with_missing_data():
     # Test with empty data
     empty_data = {}
 
-    for sensor_config in SENSOR_TYPES.values():
+    for sensor_key, sensor_config in SENSOR_TYPES.items():
         value_func = sensor_config["value_func"]
         try:
             result = value_func(empty_data)
@@ -102,25 +100,42 @@ def test_sensor_value_functions_with_partial_data():
     assert result == 50
 
 
-def test_battery_sensor_value_functions():
-    """Test battery-specific sensor value functions."""
+def test_new_sensors_from_zensdk():
+    """Test the new sensors added from zenSDK documentation."""
     sample_data = load_fixture("sample_response.json")
-
-    # Test battery pack sensors
-    battery_sensors = [key for key in SENSOR_TYPES if "battery" in key.lower()]
-
-    for sensor_key in battery_sensors:
-        value_func = SENSOR_TYPES[sensor_key]["value_func"]
-        # These might require pack index, so we'll test with mock data
-        try:
-            result = value_func(sample_data)
-            # If successful, should be a valid value
-            if result is not None:
-                assert isinstance(result, (int, float, str))
-        except (KeyError, IndexError, TypeError):
-            # Expected for battery sensors that need specific pack structure
-            pass
+    
+    # Test packNum sensor
+    pack_num_func = SENSOR_TYPES["packNum"]["value_func"]
+    pack_num_result = pack_num_func(sample_data)
+    assert pack_num_result == 2
+    
+    # Test socLimit sensor
+    soc_limit_func = SENSOR_TYPES["socLimit"]["value_func"]
+    soc_limit_result = soc_limit_func(sample_data)
+    assert soc_limit_result == "normal"  # 0 maps to "normal"
+    
+    # Test dataReady sensor
+    data_ready_func = SENSOR_TYPES["dataReady"]["value_func"]
+    data_ready_result = data_ready_func(sample_data)
+    assert data_ready_result == "ready"  # 1 maps to "ready"
+    
+    # Test pass sensor
+    pass_func = SENSOR_TYPES["pass"]["value_func"]
+    pass_result = pass_func(sample_data)
+    assert pass_result == "no"  # 0 maps to "no"
+    
+    # Test reverseState sensor
+    reverse_state_func = SENSOR_TYPES["reverseState"]["value_func"]
+    reverse_state_result = reverse_state_func(sample_data)
+    assert reverse_state_result == "no"  # 0 maps to "no"
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    test_sensor_types_structure()
+    test_electric_level_sensor()
+    test_pack_input_power_sensor()
+    test_solar_input_power_sensor()
+    test_sensor_value_functions_with_missing_data()
+    test_sensor_value_functions_with_partial_data()
+    test_new_sensors_from_zensdk()
+    print("All tests passed!")

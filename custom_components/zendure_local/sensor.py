@@ -350,13 +350,7 @@ SENSOR_TYPES = {
             int(data["properties"]["smartMode"]), "unknown"
         ),
     },
-    # Configuration Sensors
-    "gridStandard": {
-        "native_unit_of_measurement": None,
-        "icon": "mdi:cog",
-        "entity_category": EntityCategory.DIAGNOSTIC,
-        "value_func": lambda data: data["properties"]["gridStandard"],
-    },
+
     "inverseMaxPower": {
         "native_unit_of_measurement": UnitOfPower.WATT,
         "device_class": SensorDeviceClass.POWER,
