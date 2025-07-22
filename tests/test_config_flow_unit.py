@@ -1,4 +1,5 @@
 """Tests for config flow logic without Home Assistant test framework."""
+
 import sys
 from pathlib import Path
 from unittest.mock import patch
@@ -16,8 +17,8 @@ def test_config_flow_init():
     """Test that ConfigFlow can be instantiated."""
     flow = ConfigFlow()
     assert flow is not None
-    assert hasattr(flow, 'VERSION')
-    assert hasattr(flow, 'MINOR_VERSION')
+    assert hasattr(flow, "VERSION")
+    assert hasattr(flow, "MINOR_VERSION")
 
 
 def test_config_flow_constants():
@@ -34,20 +35,21 @@ def test_config_flow_schema_structure():
     flow = ConfigFlow()
 
     # Check that the flow has the necessary attributes for HA integration
-    assert hasattr(flow, 'VERSION')
-    assert hasattr(flow, 'MINOR_VERSION')
+    assert hasattr(flow, "VERSION")
+    assert hasattr(flow, "MINOR_VERSION")
 
     # Verify version numbers are integers
     assert isinstance(flow.VERSION, int)
     assert isinstance(flow.MINOR_VERSION, int)
 
 
-@patch('custom_components.zendure_local.config_flow.vol')
+@patch("custom_components.zendure_local.config_flow.vol")
 def test_config_flow_uses_voluptuous(mock_vol):
     """Test that config flow uses voluptuous for validation."""
     # Import should succeed and voluptuous should be available
     import custom_components.zendure_local.config_flow as config_flow
-    assert hasattr(config_flow, 'vol')
+
+    assert hasattr(config_flow, "vol")
 
 
 def test_config_flow_basic_structure():
@@ -55,8 +57,8 @@ def test_config_flow_basic_structure():
     flow = ConfigFlow()
 
     # Test that basic attributes exist
-    assert hasattr(flow, 'VERSION')
-    assert hasattr(flow, 'MINOR_VERSION')
+    assert hasattr(flow, "VERSION")
+    assert hasattr(flow, "MINOR_VERSION")
 
     # Test that version is reasonable
     assert flow.VERSION >= 1

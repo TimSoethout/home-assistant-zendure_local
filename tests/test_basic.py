@@ -1,4 +1,5 @@
 """Basic unit tests for the Zendure Local integration."""
+
 import json
 from pathlib import Path
 import sys

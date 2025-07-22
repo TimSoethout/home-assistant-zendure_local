@@ -71,6 +71,12 @@ TRANSLATION_KEY_MAP = {
     "gridStandard": "grid_standard",
     "inverseMaxPower": "inverse_max_power",
     "chargeMaxLimit": "charge_max_limit",
+    "packNum": "pack_num",
+    "socLimit": "soc_limit",
+    "dataReady": "data_ready",
+    "pass": "pass",
+    "reverseState": "reverse_state",
+    "FMVolt": "fm_volt",
 }
 
 
@@ -119,13 +125,6 @@ SENSOR_TYPES = {
         "icon": "mdi:api",
         "state_class": SensorStateClass.MEASUREMENT,
         "value_func": lambda data: data["messageId"],
-    },
-    "smartMode": {
-        "native_unit_of_measurement": None,
-        "icon": "mdi:floppy",
-        "value_func": lambda data: {1: "ram", 0: "flash"}.get(
-            int(data["properties"]["smartMode"]), "unknown"
-        ),
     },
     "remainOutTime": {
         "native_unit_of_measurement": None,
@@ -326,6 +325,7 @@ SENSOR_TYPES = {
         "entity_category": EntityCategory.DIAGNOSTIC,
         "value_func": lambda data: data["properties"]["rssi"],
     },
+    # Deprecated sensors - marked as diagnostic (zenSDK: "Do not use")
     "IOTState": {
         "native_unit_of_measurement": None,
         "icon": "mdi:cloud-check",
@@ -336,12 +336,19 @@ SENSOR_TYPES = {
             2: "connected",
         }.get(int(data["properties"]["IOTState"]), "unknown"),
     },
-    # Configuration Sensors
     "gridStandard": {
         "native_unit_of_measurement": None,
         "icon": "mdi:cog",
         "entity_category": EntityCategory.DIAGNOSTIC,
         "value_func": lambda data: data["properties"]["gridStandard"],
+    },
+    "smartMode": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:floppy",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: {1: "ram", 0: "flash"}.get(
+            int(data["properties"]["smartMode"]), "unknown"
+        ),
     },
     "inverseMaxPower": {
         "native_unit_of_measurement": UnitOfPower.WATT,
@@ -354,8 +361,56 @@ SENSOR_TYPES = {
         "native_unit_of_measurement": UnitOfPower.WATT,
         "device_class": SensorDeviceClass.POWER,
         "icon": "mdi:battery-charging-high",
-        "entity_category": EntityCategory.DIAGNOSTIC,
+        "entity_category": EntityCategory.DIAGNOSTIC,  # Deprecated: zenSDK "Do not use"
         "value_func": lambda data: data["properties"]["chargeMaxLimit"],
+    },
+    # Additional sensors based on zenSDK documentation
+    "packNum": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:battery-outline",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: data["properties"]["packNum"],
+    },
+    "socLimit": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:battery-alert",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: {
+            0: "normal",
+            1: "charge_limit_reached",
+            2: "discharge_limit_reached",
+        }.get(int(data["properties"]["socLimit"]), "unknown"),
+    },
+    "dataReady": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:check-circle",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: {0: "not_ready", 1: "ready"}.get(
+            int(data["properties"]["dataReady"]), "unknown"
+        ),
+    },
+    "pass": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:arrow-right-bold",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: {0: "no", 1: "yes"}.get(
+            int(data["properties"]["pass"]), "unknown"
+        ),
+    },
+    "reverseState": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:arrow-u-left-top",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: {0: "no", 1: "reverse_flow"}.get(
+            int(data["properties"]["reverseState"]), "unknown"
+        ),
+    },
+    "FMVolt": {
+        "native_unit_of_measurement": "mV",
+        "device_class": SensorDeviceClass.VOLTAGE,
+        "icon": "mdi:flash-alert",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "value_func": lambda data: data["properties"].get("FMVolt"),
     },
 }
 
@@ -383,6 +438,36 @@ PACK_SENSOR_TYPES = {
         "device_class": SensorDeviceClass.VOLTAGE,
         "state_class": SensorStateClass.MEASUREMENT,
         "icon": "mdi:flash",
+    },
+    "current": {
+        "native_unit_of_measurement": "A",
+        "device_class": SensorDeviceClass.CURRENT,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "icon": "mdi:current-dc",
+    },
+    "max_cell_voltage": {
+        "native_unit_of_measurement": "V",
+        "device_class": SensorDeviceClass.VOLTAGE,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "icon": "mdi:flash-outline",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    "min_cell_voltage": {
+        "native_unit_of_measurement": "V",
+        "device_class": SensorDeviceClass.VOLTAGE,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "icon": "mdi:flash-outline",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    "software_version": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:information",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    "heat_state": {
+        "native_unit_of_measurement": None,
+        "icon": "mdi:thermometer-alert",
+        "entity_category": EntityCategory.DIAGNOSTIC,
     },
     "state": {
         "native_unit_of_measurement": None,
@@ -670,11 +755,48 @@ class ZendureLocalBatterySensor(CoordinatorEntity[ZendureCoordinator], SensorEnt
             elif sensor_key.endswith("_temp"):
                 max_temp = pack_info.get("maxTemp")
                 if max_temp is not None:
+                    # Convert from Kelvin * 10 to Celsius: (maxTemp - 2731) / 10.0
                     self._attr_native_value = (int(max_temp) - 2731) / 10.0
                 else:
                     self._attr_native_value = None
             elif sensor_key.endswith("_voltage"):
                 self._attr_native_value = pack_info.get("totalVol")
+            elif sensor_key.endswith("_current"):
+                batcur = pack_info.get("batcur")
+                if batcur is not None:
+                    # Convert: batcur is 32-bit integer, upper 16 bits sign-extended
+                    # Formula: batcur_actual = ((int16_t)batcur) / 10.0
+                    # Convert to signed 16-bit and divide by 10
+                    signed_current = batcur & 0xFFFF
+                    if signed_current > 32767:
+                        signed_current -= 65536
+                    self._attr_native_value = signed_current / 10.0
+                else:
+                    self._attr_native_value = None
+            elif sensor_key.endswith("_max_cell_voltage"):
+                max_vol = pack_info.get("maxVol")
+                if max_vol is not None:
+                    # Convert from 0.01V units to V: maxVol / 100.0
+                    self._attr_native_value = max_vol / 100.0
+                else:
+                    self._attr_native_value = None
+            elif sensor_key.endswith("_min_cell_voltage"):
+                min_vol = pack_info.get("minVol")
+                if min_vol is not None:
+                    # Convert from 0.01V units to V: minVol / 100.0
+                    self._attr_native_value = min_vol / 100.0
+                else:
+                    self._attr_native_value = None
+            elif sensor_key.endswith("_software_version"):
+                self._attr_native_value = pack_info.get("softVersion")
+            elif sensor_key.endswith("_heat_state"):
+                heat_state = pack_info.get("heatState")
+                if heat_state is not None:
+                    self._attr_native_value = {0: "normal", 1: "heating"}.get(
+                        int(heat_state), "unknown"
+                    )
+                else:
+                    self._attr_native_value = None
             elif sensor_key.endswith("_state"):
                 state_value = pack_info.get("state")
                 if state_value is not None:

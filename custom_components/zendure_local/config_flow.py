@@ -28,10 +28,7 @@ class ZendureLocalConfigFlow(ConfigFlow, domain=DOMAIN):
             # Check for existing entries with the same resource to prevent duplicates
             self._async_abort_entries_match({CONF_RESOURCE: user_input[CONF_RESOURCE]})
 
-            return self.async_create_entry(
-                title=user_input[CONF_NAME],
-                data=user_input
-            )
+            return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         return self.async_show_form(
             step_id="user",
