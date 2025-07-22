@@ -159,6 +159,45 @@
             "charge_max_limit": {
                 "name": "Maximale laadlimiet"
             },
+            "pack_num": {
+                "name": "Aantal batterijpakken"
+            },
+            "soc_limit": {
+                "name": "SOC limietniveau",
+                "state": {
+                    "normal": "Normaal",
+                    "charge_limit_reached": "Laadlimiet bereikt",
+                    "discharge_limit_reached": "Ontlaadlimiet bereikt",
+                    "unknown": "Onbekend"
+                }
+            },
+            "data_ready": {
+                "name": "Gegevens gereed status",
+                "state": {
+                    "not_ready": "Niet gereed",
+                    "ready": "Gereed",
+                    "unknown": "Onbekend"
+                }
+            },
+            "pass": {
+                "name": "Doorlaatstatus",
+                "state": {
+                    "no": "Nee",
+                    "yes": "Ja",
+                    "unknown": "Onbekend"
+                }
+            },
+            "reverse_state": {
+                "name": "Terugvloeiingsstatus",
+                "state": {
+                    "no": "Geen terugvloeiing",
+                    "reverse_flow": "Terugvloeiing actief",
+                    "unknown": "Onbekend"
+                }
+            },
+            "fm_volt": {
+                "name": "Spanningsactivering"
+            },
             "pack_soc": {
                 "name": "Batterijniveau"
             },
@@ -170,6 +209,26 @@
             },
             "pack_voltage": {
                 "name": "Batterijspanning"
+            },
+            "pack_current": {
+                "name": "Batterijstroom"
+            },
+            "pack_max_cell_voltage": {
+                "name": "Maximale celspanning"
+            },
+            "pack_min_cell_voltage": {
+                "name": "Minimale celspanning"
+            },
+            "pack_software_version": {
+                "name": "Softwareversie"
+            },
+            "pack_heat_state": {
+                "name": "Verwarmingsstatus",
+                "state": {
+                    "normal": "Normaal",
+                    "heating": "Verwarmen",
+                    "unknown": "Onbekend"
+                }
             },
             "pack_battery_state": {
                 "name": "Batterijstatus",
