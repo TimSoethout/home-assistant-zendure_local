@@ -182,6 +182,45 @@
             "charge_max_limit": {
                 "name": "Max Charge Limit"
             },
+            "pack_num": {
+                "name": "Number of Battery Packs"
+            },
+            "soc_limit": {
+                "name": "SOC Limit Status",
+                "state": {
+                    "normal": "Normal",
+                    "charge_limit_reached": "Charge Limit Reached",
+                    "discharge_limit_reached": "Discharge Limit Reached",
+                    "unknown": "Unknown"
+                }
+            },
+            "data_ready": {
+                "name": "Data Ready Status",
+                "state": {
+                    "not_ready": "Not Ready",
+                    "ready": "Ready",
+                    "unknown": "Unknown"
+                }
+            },
+            "pass": {
+                "name": "Pass Status",
+                "state": {
+                    "no": "No",
+                    "yes": "Yes",
+                    "unknown": "Unknown"
+                }
+            },
+            "reverse_state": {
+                "name": "Reverse Flow State",
+                "state": {
+                    "no": "No Reverse Flow",
+                    "reverse_flow": "Reverse Flow Active",
+                    "unknown": "Unknown"
+                }
+            },
+            "fm_volt": {
+                "name": "Voltage Activation"
+            },
             "pack_soc": {
                 "name": "Battery Level"
             },
@@ -193,6 +232,26 @@
             },
             "pack_voltage": {
                 "name": "Battery Voltage"
+            },
+            "pack_current": {
+                "name": "Battery Current"
+            },
+            "pack_max_cell_voltage": {
+                "name": "Max Cell Voltage"
+            },
+            "pack_min_cell_voltage": {
+                "name": "Min Cell Voltage"
+            },
+            "pack_software_version": {
+                "name": "Software Version"
+            },
+            "pack_heat_state": {
+                "name": "Heat State",
+                "state": {
+                    "normal": "Normal",
+                    "heating": "Heating",
+                    "unknown": "Unknown"
+                }
             },
             "pack_battery_state": {
                 "name": "Battery State",
