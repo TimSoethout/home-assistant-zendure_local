@@ -1,3 +1,5 @@
+"""Constants for the Zendure Local integration."""
+
 from datetime import timedelta
 
 DOMAIN = "zendure_local"
