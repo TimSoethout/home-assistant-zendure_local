@@ -181,5 +181,28 @@
                 }
             }
         }
+    },
+    "config": {
+        "step": {
+            "user": {
+                "title": "Zendure Local Integratie Toevoegen",
+                "description": "Configureer de Zendure Local integratie om verbinding te maken met uw Zendure apparaat.",
+                "data": {
+                    "name": "Naam",
+                    "resource": "Resource URL"
+                },
+                "data_description": {
+                    "name": "Een vriendelijke naam voor dit Zendure apparaat",
+                    "resource": "Het URL eindpunt om gegevens op te halen van uw Zendure apparaat (bijv. http://SolarFlow800.lan/properties/report)"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Verbinding mislukt",
+            "unknown": "Onverwachte fout opgetreden"
+        },
+        "abort": {
+            "already_configured": "Apparaat is al geconfigureerd"
+        }
     }
 }

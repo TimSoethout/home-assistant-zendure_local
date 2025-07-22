@@ -1,4 +1,27 @@
 {
+    "config": {
+        "step": {
+            "user": {
+                "title": "Add Zendure Local Integration",
+                "description": "Configure the Zendure Local integration to connect to your Zendure device.",
+                "data": {
+                    "name": "Name",
+                    "resource": "Resource URL"
+                },
+                "data_description": {
+                    "name": "A friendly name for this Zendure device",
+                    "resource": "The URL endpoint to fetch data from your Zendure device (e.g., http://SolarFlow800.lan/properties/report)"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "unknown": "Unexpected error occurred"
+        },
+        "abort": {
+            "already_configured": "Device is already configured"
+        }
+    },
     "entity": {
         "sensor": {
             "message_id": {
