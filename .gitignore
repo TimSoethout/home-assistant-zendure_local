@@ -5,3 +5,9 @@ __pycache__/
 
 .coverage
 coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Development directories
+config/
+.vscode/settings.json

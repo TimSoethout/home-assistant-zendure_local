@@ -1,0 +1,60 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "name": "Zendure Local Integration",
+    "appPort": [
+        "8123:8123"
+    ],
+    "postCreateCommand": "pip install -r tests/requirements.txt && pip install homeassistant[dev]",
+    "mounts": [
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.pylint",
+                "ms-python.isort",
+                "ms-python.black-formatter",
+                "visualstudioexptteam.vscodeintellicode",
+                "redhat.vscode-yaml",
+                "github.vscode-pull-request-github",
+                "ryanluker.vscode-coverage-gutters",
+                "ferrierbenjamin.fold-unfold-all-icone",
+                "donjayamanne.githistory",
+                "waderyan.gitblame",
+                "keesschollaart.vscode-home-assistant",
+                "yzhang.markdown-all-in-one",
+                "github.vscode-github-actions",
+                "azuretools.vscode-docker",
+                "huizhou.githd",
+                "github.copilot",
+                "github.copilot-chat"
+            ],
+            "settings": {
+                "files.eol": "\n",
+                "editor.tabSize": 4,
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "bash",
+                        "args": []
+                    }
+                },
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "python.pythonPath": "/usr/bin/python3",
+                "python.analysis.autoSearchPaths": true,
+                "pylint.lintOnChange": false,
+                "python.formatting.provider": "black",
+                "python.formatting.blackArgs": [
+                    "--line-length",
+                    "88"
+                ],
+                "editor.formatOnPaste": false,
+                "editor.formatOnSave": true,
+                "editor.formatOnType": true,
+                "files.trimTrailingWhitespace": true
+            }
+        }
+    }
+}

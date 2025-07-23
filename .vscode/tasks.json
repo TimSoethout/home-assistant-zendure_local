@@ -1,0 +1,142 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Home Assistant on port 8123",
+            "type": "shell",
+            "command": "./scripts/start_ha.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        //  {
+        //     "label": "Run Home Assistant on port 8123",
+        //     "type": "shell",
+        //     "command": "./container start",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Restart Home Assistant on port 8123",
+        //     "type": "shell",
+        //     "command": "./container restart",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Start coverage",
+        //     "type": "shell",
+        //     "command": "./container coverage",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Home Assistant translations update",
+        //     "type": "shell",
+        //     "command": "./container translations",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Home Assistant hassfest",
+        //     "type": "shell",
+        //     "command": "./container hassfest",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Run Home Assistant configuration against /config",
+        //     "type": "shell",
+        //     "command": "./container check-config",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Upgrade Home Assistant to latest dev",
+        //     "type": "shell",
+        //     "command": "./container install",
+        //     "problemMatcher": []
+        // },
+        // {
+        //     "label": "Install a specific version of Home Assistant",
+        //     "type": "shell",
+        //     "command": "./container set-version",
+        //     "problemMatcher": []
+        // },
+        {
+            "label": "Run tests",
+            "type": "shell",
+            "command": "pytest",
+            "args": [
+                "tests/",
+                "-v"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run tests with coverage",
+            "type": "shell",
+            "command": "pytest",
+            "args": [
+                "tests/",
+                "--cov=custom_components.zendure_local",
+                "--cov-report=term-missing",
+                "-v"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Lint with ruff",
+            "type": "shell",
+            "command": "ruff",
+            "args": [
+                "check",
+                "custom_components/"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Format with black",
+            "type": "shell",
+            "command": "black",
+            "args": [
+                "custom_components/"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}
