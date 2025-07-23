@@ -11,3 +11,7 @@ htmlcov/
 # Development directories
 config/
 .vscode/settings.json
+
+
+# ha devcontainer
+config
