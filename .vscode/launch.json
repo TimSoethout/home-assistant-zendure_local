@@ -2,6 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Home Assistant (debug)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "homeassistant",
+            "justMyCode": false,
+            "args": [
+                "--debug",
+                "-c",
+                "config"
+            ]
+        },
+        {
             "name": "Python: Attach Local",
             "type": "python",
             "request": "attach",

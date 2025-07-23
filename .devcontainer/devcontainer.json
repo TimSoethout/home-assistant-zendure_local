@@ -3,13 +3,13 @@
         "dockerfile": "Dockerfile"
     },
     "name": "Zendure Local Integration",
-    "appPort": ["8123:8123"],
+    "appPort": [
+        "8123:8123"
+    ],
     "postCreateCommand": "pip install -r tests/requirements.txt && pip install homeassistant[dev]",
-
     "mounts": [
         "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
     ],
-
     "customizations": {
         "vscode": {
             "extensions": [
@@ -46,7 +46,10 @@
                 "python.analysis.autoSearchPaths": true,
                 "pylint.lintOnChange": false,
                 "python.formatting.provider": "black",
-                "python.formatting.blackArgs": ["--line-length", "88"],
+                "python.formatting.blackArgs": [
+                    "--line-length",
+                    "88"
+                ],
                 "editor.formatOnPaste": false,
                 "editor.formatOnSave": true,
                 "editor.formatOnType": true,

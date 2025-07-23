@@ -1,17 +1,33 @@
 #!/bin/bash
 
-# Start Home Assistant in development mode
-echo "Starting Home Assistant for development..."
+set -e
+set -x
 
-# Set up the config directory
-mkdir -p /workspaces/home-assistant-zendure_local/config
+cd "$(dirname "$0")/.."
+pwd
 
-# Copy devcontainer configuration to config
-cp /workspaces/home-assistant-zendure_local/.devcontainer/configuration.yaml /workspaces/home-assistant-zendure_local/config/
+# Create config dir if not present
+if [[ ! -d "${PWD}/config" ]]; then
+    mkdir -p "${PWD}/config"
+    # Add defaults configuration
+    hass --config "${PWD}/config" --script ensure_config
+fi
 
-# Create custom_components directory and link our integration
-mkdir -p /workspaces/home-assistant-zendure_local/config/custom_components
-ln -sf /workspaces/home-assistant-zendure_local/custom_components/zendure_local /workspaces/home-assistant-zendure_local/config/custom_components/
+# Overwrite configuration.yaml if provided
+if [ -f ${PWD}/.devcontainer/configuration.yaml ]; then
+    rm -f ${PWD}/config/configuration.yaml
+    ln -s ${PWD}/.devcontainer/configuration.yaml ${PWD}/config/configuration.yaml
+fi
+
+# Set the path to custom_components
+## This let's us have the structure we want <root>/custom_components/integration_blueprint
+## while at the same time have Home Assistant configuration inside <root>/config
+## without resulting to symlinks.
+export PYTHONPATH="${PYTHONPATH}:${PWD}/custom_components"
+
+## Link custom_components into config
+# rm -f ${PWD}/config/custom_components
+# ln -s ${PWD}/custom_components ${PWD}/config/
 
 # Start Home Assistant
-hass --config /workspaces/home-assistant-zendure_local/config --debug
+hass --config "${PWD}/config" --debug
